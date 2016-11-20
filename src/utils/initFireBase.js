@@ -7,6 +7,7 @@ require('firebase/storage');
 import store from '../utils/createStore';
 import constancts from '../constants/userContants';
 import { login, logout, profileDataChanges } from '../actions/usersActions';
+import { coursesLoaded } from '../actions/actions';
 var config = {
     apiKey: "AIzaSyAdkIgIi5vcbsvRhQ21WID9LA9KYUzKe9U",
     authDomain: "western-stone-146220.firebaseapp.com",
@@ -14,8 +15,6 @@ var config = {
     storageBucket: "western-stone-146220.appspot.com",
     messagingSenderId: "72550096492"
 };
-
-//const guid = new Guid();
 
 class FireBase {
     constructor() {
@@ -37,7 +36,8 @@ class FireBase {
         // Make sure we remove all previous listeners.
         this.coursesRef.off();
         this.coursesRef.on('value', (data) => {
-            console.log(data.val());
+            
+            store.dispatch(coursesLoaded(data.val()))
         })
     }
     addCourse(course) {
@@ -63,6 +63,7 @@ class FireBase {
     }
 }
 
-
-module.exports = new FireBase();
+const fb = new FireBase()
+module.exports = fb;
+module.exports.fb=fb;
 module.exports.FireBase = FireBase;

@@ -1,5 +1,6 @@
-const fb = require('../utils/initFireBase');
+const fb = require('../utils/initFireBase').fb;
 import { AUTHENTICATE, PROFILE_DATA_UPDATED } from '../constants/userContants.js';
+import { START_FETCHING_COURSES } from '../constants/coursesConstants';
 import history from '../utils/createHistory';
 
 export const register = (user) => {
@@ -24,6 +25,31 @@ export const logout = () => {
         fb.signOut().then(data => {
             dispatch({ type: 'LOGOUT', user: null })
         });
+    }
+};
+
+export const getCoursesList = (courses) => {
+    return dispatch => {
+        fb.loadCourses();
+        dispatch({
+            type: START_FETCHING_COURSES,
+            courses: {
+                isFetching: true
+            }
+        })
+    }
+};
+
+export const coursesLoaded = (courses) => {
+    console.log(courses);
+    return dispatch => {
+        dispatch({
+            type: START_FETCHING_COURSES,
+            courses: {
+                isFetching: false,
+                courses
+            }
+        })
     }
 };
 export const pingAuth = () => ({ type: 'PING_AUTH' });

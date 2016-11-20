@@ -44,10 +44,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({ logout }, dispatch
 class Header extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
     }
     logout() {
-        console.log('clicked');
         this.props.logout();
     }
     render() {

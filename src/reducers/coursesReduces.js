@@ -5,7 +5,7 @@ const courses = {
     courses: []
 }
 
-const coursesConstants = (state = courses, action) => {
+const coursesReducer = (state = courses, action) => {
     switch (action.type) {
         case START_FETCHING_COURSES: {
             return Object.assign({}, courses, action.courses);
@@ -14,4 +14,4 @@ const coursesConstants = (state = courses, action) => {
     }
 }
 
-export default userReducer;
+export default coursesReducer;

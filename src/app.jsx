@@ -6,7 +6,6 @@ import route from './routes'
 import store from './utils/createStore';
 import history from './utils/createHistory'
 
-
 export default class App extends React.Component {
     render() {
         return (

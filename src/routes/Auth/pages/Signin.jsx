@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import Form from '../components/Form';
-import { Paper } from 'material-ui';
+import { Paper, RaisedButton } from 'material-ui';
 import fb from '../../../utils/initFireBase.js';
 import { login } from '../../../actions/usersActions.js'
 import store from '../../../utils/createStore.js';
@@ -29,6 +29,9 @@ class SignIn extends React.Component {
         store.dispatch(login(user.Email, user.Password))
         // fb.signIn(user.Email, user.Password);
     }
+    handleGoogleLogin() {
+        fb.signInGoogle();
+    }
 
     render() {
 
@@ -40,6 +43,7 @@ class SignIn extends React.Component {
         return (<div>
             <Paper style={styles.paperStyle} zDepth={3}>
                 <Form values={vals} handleSubmit={this.handleLogin.bind(this)} />
+                <RaisedButton onClick={this.handleGoogleLogin}>Sign in with Google </RaisedButton>
             </Paper>
         </div>)
     }
