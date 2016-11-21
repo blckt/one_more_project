@@ -1,5 +1,6 @@
 import React from 'react';
 
+const CreateTestForm = require('./createCourse');
 
 class CreateTest extends React.Component {
     constructor(props) {
@@ -7,7 +8,7 @@ class CreateTest extends React.Component {
     }
     render() {
         return (<div>
-            Create course...
+            <CreateTestForm></CreateTestForm>
         </div>)
     }
 }

@@ -39,14 +39,28 @@ loaders.push({
 });
 
 module.exports = {
-	entry: [
-		'react-hot-loader/patch',
-		'./src/index.jsx' // your app's entry point
-	],
+	entry: {
+		app: [
+			'react-hot-loader/patch',
+			'./src/index.jsx' // your app's entry point
+		],
+		vendors: [
+			'material-ui',
+			'react',
+			'react-dom',
+			'muicss',
+			'react-router',
+			'react-redux',
+			'react-router-redux',
+			'guid',
+			'firebase'
+		]
+	},
 	devtool: process.env.WEBPACK_DEVTOOL || 'cheap-module-source-map',
 	output: {
 		path: path.join(__dirname, 'public'),
-		filename: 'bundle.js'
+		publicPath: '/',
+		filename: '[name].js'
 	},
 	resolve: {
 		extensions: ['', '.js', '.jsx'],
@@ -75,6 +89,9 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.NoErrorsPlugin(),
+		new webpack.optimize.CommonsChunkPlugin({
+			name: "vendors"
+		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
 			template: './src/template.html'

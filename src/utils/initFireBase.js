@@ -5,9 +5,10 @@ require('firebase/auth');
 require('firebase/database');
 require('firebase/storage');
 import store from '../utils/createStore';
-import constancts from '../constants/userContants';
+// import constancts from '../constants/userContants';
 import { login, logout, profileDataChanges } from '../actions/usersActions';
-import { coursesLoaded } from '../actions/actions';
+// import { courseLoaded } from '../actions/courseActions';
+// import { coursesLoaded } from '../actions/actions'
 var config = {
     apiKey: "AIzaSyAdkIgIi5vcbsvRhQ21WID9LA9KYUzKe9U",
     authDomain: "western-stone-146220.firebaseapp.com",
@@ -32,18 +33,29 @@ class FireBase {
         store.dispatch(profileDataChanges(user));
     }
     loadCourses() {
-        this.coursesRef = this.database.ref('courses');
-        // Make sure we remove all previous listeners.
-        this.coursesRef.off();
-        this.coursesRef.on('value', (data) => {
-            
-            store.dispatch(coursesLoaded(data.val()))
+        return new Promise((resolve, reject) => {
+            this.coursesRef = this.database.ref('courses');
+            // Make sure we remove all previous listeners.
+            this.coursesRef.off();
+            this.coursesRef.on('value', (data) => {
+                //store.dispatch(coursesLoaded())
+                resolve(data.val())
+            })
         })
     }
     addCourse(course) {
-
-        this.database.ref('courses/' + Guid.create())
+        var guid = Guid.create();
+        this.database.ref('courses/' + guid)
             .set(course);
+        return guid;
+    }
+    getCourse(id) {
+        return new Promise((resolve, reject) => {
+            var courseRef = firebase.database().ref('courses/' + id);
+            courseRef.on('value', function (snapshot) {
+                resolve(Object.assign({}, snapshot.val(), { key: "" + id }));
+            });
+        })
     }
     signInGoogle() {
         let provider = new firebase.auth.GoogleAuthProvider();
@@ -65,5 +77,5 @@ class FireBase {
 
 const fb = new FireBase()
 module.exports = fb;
-module.exports.fb=fb;
+module.exports.fb = fb;
 module.exports.FireBase = FireBase;

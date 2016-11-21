@@ -7,6 +7,7 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import { getCoursesList } from '../../../actions/usersActions';
+import { getCourse } from '../../../actions/courseActions';
 import Container from 'muicss/lib/react/container';
 import Row from 'muicss/lib/react/row';
 import Col from 'muicss/lib/react/col';
@@ -21,7 +22,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ getCoursesList }, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ getCoursesList, getCourse }, dispatch)
 
 class Dashboard extends Component {
     constructor(props) {
@@ -31,15 +32,15 @@ class Dashboard extends Component {
         this.props.getCoursesList();
     }
     handleMenuClick(id) {
-        console.log(id)
-        console.log(this.props.courses.courses[id]);
+        this.props.getCourse(id);
     }
     handleCreateTestClick() {
         history.push("/dashboard/course/create");
     }
     render() {
         const {courses} = this.props.courses;
-        const menuItem = courses.map((item, index) => <MenuItem onClick={this.handleMenuClick.bind(this, index)} key={index} primaryText={item.course_name} value={index}></MenuItem>)
+        const menuItem = courses.map((item, index) =>
+            <MenuItem onClick={this.handleMenuClick.bind(this, item.key)} key={index} primaryText={item.course_name} value={index}></MenuItem>)
         return (<Container>
             <Row>
                 <FlatButton onClick={this.handleCreateTestClick.bind(this)} primary={true}>Create Course</FlatButton>

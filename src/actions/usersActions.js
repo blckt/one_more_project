@@ -6,20 +6,20 @@ import history from '../utils/createHistory';
 export const register = (user) => {
     return { type: 'REGISTER', user }
 };
+
 export const login = (email, password) => {
     return dispatch => {
         fb.signIn(email, password)
     }
 }
+
 export const profileDataChanges = (data) => {
-
-    // data === null ? history.push('/') : history.push('/auth');
-
     return {
         type: PROFILE_DATA_UPDATED,
         user: data ? Object.assign({}, data.providerData[0], { token: data.refreshToken }) : null
     }
 }
+
 export const logout = () => {
     return dispatch => {
         fb.signOut().then(data => {
@@ -28,9 +28,13 @@ export const logout = () => {
     }
 };
 
-export const getCoursesList = (courses) => {
+export const getCoursesList = () => {
     return dispatch => {
-        fb.loadCourses();
+        fb.loadCourses()
+            .then(courses => {
+                console.log(courses);
+                dispatch(require('./actions').coursesLoaded(courses))
+            })
         dispatch({
             type: START_FETCHING_COURSES,
             courses: {
@@ -40,16 +44,15 @@ export const getCoursesList = (courses) => {
     }
 };
 
-export const coursesLoaded = (courses) => {
-    console.log(courses);
-    return dispatch => {
-        dispatch({
-            type: START_FETCHING_COURSES,
-            courses: {
-                isFetching: false,
-                courses
-            }
-        })
-    }
-};
+// export const coursesLoaded = (courses) => {
+//     return dispatch => {
+//         dispatch({
+//             type: START_FETCHING_COURSES,
+//             courses: {
+//                 isFetching: false,
+//                 courses
+//             }
+//         })
+//     }
+// };
 export const pingAuth = () => ({ type: 'PING_AUTH' });
