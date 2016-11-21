@@ -11,8 +11,10 @@ import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import { TextField } from 'material-ui';
-
+import { Link } from 'react-router';
+import { TextField, Tab, Tabs, DropDownMenu, Toolbar, ToolbarTitle, ToolbarGroup, ToolbarSeparator } from 'material-ui';
+import history from '../utils/createHistory.js';
+import { withRouter } from 'react-router';
 const Logged = (props) => (
     <div>
         <span> {props.email}</span>
@@ -41,23 +43,55 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 const mapDispatchToProps = (dispatch) => bindActionCreators({ logout }, dispatch)
+const styles = {
+    margin: {
+        margin: '0 20px'
+    }
+}
+const handleMenuChange = (value) => {
+
+    history.push(value);
+}
+
 class Header extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            menuValue: 1,
+            pathname: '/'
+        }
     }
     logout() {
         this.props.logout();
     }
+    handleMenu(pathname, ss) {
+        this.setState({ pathname });
+        history.push(pathname);
+    }
+    componentWillMount() {
+        const {pathname} = this.props.router.location;
+        this.setState({ pathname });
+    }
     render() {
-        return (<AppBar title="deps"
-            iconElementRight={this.props.user && this.props.user.email ? <Logged logOut={this.logout.bind(this)} email={this.props.user.email} /> : <Login />}>
-
-        </AppBar >)
+        const isLogged = this.props.user && this.props.user.email ? <Logged logOut={this.logout.bind(this)} email={this.props.user.email
+        } /> : <Login />;
+        return (
+            <AppBar title="deps"
+                showMenuIconButton={false}
+                >
+                <Tabs value={this.state.pathname} onChange={this.handleMenu.bind(this)}>
+                    <Tab style={styles.margin} value={"/"} label="Courses" />
+                    <Tab style={styles.margin} value={"/dashboard"} label="Dashboard" />
+                </Tabs>
+                {isLogged}
+            </AppBar >
+        )
     }
 }
 
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(Header);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
+
 // {this.props.user.email}
 //             {(()=>{
 //                 if(this.props.user.email){                    

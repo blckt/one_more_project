@@ -13,7 +13,7 @@ export const login = (email, password) => {
 }
 export const profileDataChanges = (data) => {
 
-    data !== null ? history.push('/') : history.push('/auth');
+    // data === null ? history.push('/') : history.push('/auth');
 
     return {
         type: PROFILE_DATA_UPDATED,
