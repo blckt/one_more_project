@@ -22,14 +22,14 @@ app.use(/\.js$|\.css$/,express.static('dist'));
 app.get('*',function(req,res,next) {
   if(/\.js$|\.css$|\.png$|\.jpg$/.test(req.url)){
     const splittedUrl = req.url.split('/');
-    res.sendFile(path.join(__dirname,'./dist',splittedUrl[splittedUrl.length-1]));
+    res.sendFile(path.join(__dirname,'./public',splittedUrl[splittedUrl.length-1]));
   return;
   }
   next();
 });
 app.get('*', function (req, res) {
   console.log(req.url);
-  res.sendFile(path.join(__dirname, './dist/index.html'));
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.listen(port,function (err) {
