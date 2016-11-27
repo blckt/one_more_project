@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Paper } from 'material-ui'
 import { connect } from 'react-redux';
+
+import history from '../../../../utils/createHistory';
+import { getCoursesList } from '../../../../actions/usersActions';
 import { bindActionCreators } from 'redux';
-import history from '../../../utils/createHistory';
-import Paper from 'material-ui/Paper';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-import Container from 'muicss/lib/react/container';
-import Row from 'muicss/lib/react/row';
-import Col from 'muicss/lib/react/col';
 const style = {
     display: 'inline-block',
     margin: '16px 32px 16px 0',
 };
+
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -22,7 +22,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ getCoursesList }, dispatch)
 
-class Dashboard extends Component {
+class AllCourses extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -32,23 +32,22 @@ class Dashboard extends Component {
     handleMenuClick(id) {
         history.push(`/dashboard/course/${id}`);
     }
-    handleCreateTestClick() {
-        history.push("/dashboard/course/create");
-    }
     render() {
+
         const {courses} = this.props.courses;
         const coursesList = courses;
         const menuItem = !courses.isFetching && coursesList ? coursesList.map((item, index) =>
             <MenuItem onClick={this.handleMenuClick.bind(this, item.key)} key={index} primaryText={item.course_name} value={index}></MenuItem>) : '';
-        return (<Container>
-            <Row>
-                <FlatButton onClick={this.handleCreateTestClick.bind(this)} primary={true}>Create Course</FlatButton>
-            </Row>
-
-            {this.props.children || "Child component"}
-
-        </Container>)
+        return (<div style={{ width: '100%' }}>
+            <Paper style={style}>
+                {
+                    this.props.courses.isFetching ?
+                        "Loading..." :
+                        menuItem
+                }
+            </Paper>
+        </div>)
     }
 }
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(AllCourses);

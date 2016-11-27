@@ -92,6 +92,12 @@ module.exports = {
 		new webpack.optimize.CommonsChunkPlugin({
 			name: "vendors"
 		}),
+		new webpack.ProvidePlugin({
+			fetch: 'isomorphic-fetch'
+		}),
+		new webpack.DefinePlugin({
+			API_URL: JSON.stringify(process.env.API_URL) || "'http://coursemanager.azurewebsites.net/'"
+		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
 			template: './src/template.html'

@@ -4,6 +4,7 @@ var firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
 require('firebase/storage');
+
 import store from '../utils/createStore';
 // import constancts from '../constants/userContants';
 import { login, logout, profileDataChanges } from '../actions/usersActions';
@@ -45,9 +46,12 @@ class FireBase {
     }
     addCourse(course) {
         var guid = Guid.create();
-        this.database.ref('courses/' + guid)
-            .set(course);
-        return guid;
+
+        return new Promise((resolve, reject) => {
+            this.database.ref('courses/' + guid)
+                .set(course);
+            resolve();
+        })
     }
     getCourse(id) {
         return new Promise((resolve, reject) => {
@@ -57,6 +61,24 @@ class FireBase {
             });
         })
     }
+    addTask(task) {
+        var guid = Guid.create();
+
+        return new Promise((resolve, reject) => {
+            this.database.ref('tasks/' + guid)
+                .set(task);
+            resolve();
+        })
+    }
+    getTask(id) {
+        return new Promise((resolve, reject) => {
+            var ref = firebase.database().ref('tasks/' + id);
+            ref.on('value', function (snapshot) {
+                resolve(Object.assign({}, snapshot.val(), { key: "" + id }));
+            });
+        })
+    }
+
     signInGoogle() {
         let provider = new firebase.auth.GoogleAuthProvider();
         this.auth.signInWithPopup(provider);
@@ -73,9 +95,16 @@ class FireBase {
     signOut() {
         return this.auth.signOut();
     }
-}
+ }
 
 const fb = new FireBase()
+// fetch("http://localhost:3000/task/1",function(...args){
+//     console.log(args)
+// }).then(data=>data.json())
+// .then(code=>{
+//     delete code.id;
+//   fb.addTask(code);  
+// })
 module.exports = fb;
 module.exports.fb = fb;
 module.exports.FireBase = FireBase;

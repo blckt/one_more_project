@@ -31,7 +31,8 @@ module.exports = {
 	],
 	output: {
 		path: path.join(__dirname, 'public'),
-		filename: '[chunkhash].js'
+		filename: '[chunkhash].js',
+		publicPath: '/',
 	},
 	resolve: {
 		extensions: ['', '.js', '.jsx']
@@ -44,7 +45,8 @@ module.exports = {
 		new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: '"production"'
-			}
+			},
+			API_URL: JSON.stringify(process.env.API_URL) || "'http://coursemanager.azurewebsites.net/'"
 		}),
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
@@ -60,7 +62,7 @@ module.exports = {
 		}),
 		new HtmlWebpackPlugin({
 			template: './src/template.html',
-			title: 'Webpack App'
+			title: 'Scheduler'
 		}),
 		new webpack.optimize.DedupePlugin()
 	]

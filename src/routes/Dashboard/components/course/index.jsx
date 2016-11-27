@@ -4,5 +4,12 @@ module.exports = {
         require.ensure([], (require) => {
             cb(null, require('./course.jsx'), "dashboard")
         })
+    },
+    path: '/dashboard/course/:id',
+    getComponent(nextState, cb) {
+        require.ensure([], (require) => {
+            cb(null, require('./coursePage'), "dashboard");
+        })
     }
+
 }
