@@ -6,20 +6,20 @@ const config = process.env.NODE_ENV === 'production' ? require('./webpack.produc
 const app = express();
 const compiler = webpack(config);
 const port = process.env.PORT || process.env.port || 3001;
-app.use(/\.js$|\.css$/, express.static('dist'));
+app.use(/\.js$|\.css$/, express.static('public'));
 
 
 
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: false,
-  publicPath: config.output.publicPath,
-  watchOptions: {
-    aggregateTimeout: 300,
-    poll: 1000 // is this the same as specifying --watch-poll?
-  }
-}));
+// app.use(require('webpack-dev-middleware')(compiler, {
+//   noInfo: false,
+//   publicPath: config.output.publicPath,
+//   watchOptions: {
+//     aggregateTimeout: 300,
+//     poll: 1000 // is this the same as specifying --watch-poll?
+//   }
+// }));
 
-app.use(require('webpack-hot-middleware')(compiler));
+// app.use(require('webpack-hot-middleware')(compiler));
 
 app.get('*', function (req, res, next) {
   if (/\.js$|\.css$|\.png$|\.jpg$/.test(req.url)) {

@@ -15,8 +15,7 @@ const courses = {
 
 const coursesReducer = (state = courses, action) => {
     switch (action.type) {
-        case courseContants.START_FETCHING_COURSES: {
-            console.log(action)
+        case courseContants.START_FETCHING_COURSES: {            
             return Object.assign({}, state, action.courses);
         }
         case courseContants.DASHBOARD_COURSE_LOAD: {
@@ -24,13 +23,13 @@ const coursesReducer = (state = courses, action) => {
             return newstate;
         }
         case tasksConsts.GET_TASK: {
-            return Object.assign({}, state, { task: action.task })
+            return Object.assign({}, state, { task: action.task });
         }
         case tasksConsts.GET_TASKS: {
-            return Object.assign({}, state, { tasks: action.tasks })
+            return Object.assign({}, state, { tasks: action.tasks });
         }
         case courseContants.COURSE_LECTURES_LOAD: {
-            return Object.assign({}, state, { lectures: action.payload })
+            return Object.assign({}, state, { lectures: action.payload });
         }
         default: return state;
     }
