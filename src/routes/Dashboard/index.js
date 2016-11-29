@@ -12,6 +12,6 @@ module.exports = {
             }, "dashboard")
         },
     },
-    childRoutes: [course],
+    childRoutes: course,
     onEnter: requireAuth
 }

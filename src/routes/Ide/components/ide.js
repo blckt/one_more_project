@@ -41,20 +41,20 @@ class Ide extends React.Component {
       this.setState({ task: newProps.task, code: newProps.task.Template });
   }
   componentDidMount() {
-
     this.initEvents({});
   }
   initEvents(task) {
     const sumbitBtn = findDOMNode(this.refs.submit_btn);
     const updateTask = findDOMNode(this.refs.updateTask_btn);
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    console.log(myHeaders);
     sumbitBtn.addEventListener('click', () => {
       fetch(`${API_URL}task/${this.state.taskId}/verify`, {
         method: 'POST',
         mode: 'cors',
-        headers:  new Headers({'content-type': 'application/json'}),
+        headers: new Headers({
+          'content-type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }),
         body: JSON.stringify({ code: this.state.code, task: this.state.task })
       })
         .then(data => data.json())

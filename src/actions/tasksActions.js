@@ -23,3 +23,15 @@ export const getTask = (id) => {
             })
     }
 }
+
+export const getTasks = () => {
+    return dispatch => {
+        fb.getTasks()
+            .then(tasks => {
+                dispatch({
+                    type: constants.GET_TASKS,
+                    tasks
+                })
+            })
+    }
+}

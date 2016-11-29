@@ -1,4 +1,5 @@
 const fb = require('../utils/initFireBase');
+const lecturesManager = require('../utils/FBLectures');
 import history from '../utils/createHistory';
 
 export const addCourse = (course) => {
@@ -11,6 +12,14 @@ export const addCourse = (course) => {
     }
 }
 
+export const addLecture = (lecture) => {
+    return dispatch => {
+        fb.addLecture(lecture)
+            .then(() => {
+                history.goBack();
+            })
+    }
+}
 export const getCourse = (id) => {
     return dispatch => {
         dispatch({
@@ -21,16 +30,32 @@ export const getCourse = (id) => {
         })
         fb.getCourse(id)
             .then(data => {
-                dispatch(courseLoaded(data));   
+                dispatch(courseLoaded(data));
             });
     }
 
 }
 
 export const courseLoaded = (course) => {
-
     return {
         type: 'DASHBOARD_COURSE_LOAD',
         course: Object.assign({}, course, { isFetching: false })
+    }
+}
+
+export const getCourseLectures = (lectures) => {
+    return dispatch => {
+        dispatch({
+            type: 'COURSE_LECTURES_LOAD',
+            fetching: true
+        });
+        lecturesManager.getLectures(lectures)
+            .then(lectures => dispatch({
+                type: 'COURSE_LECTURES_LOAD',
+                payload: {
+                    fetching: false,
+                    lectures
+                }
+            }))
     }
 }

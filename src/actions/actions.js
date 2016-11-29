@@ -17,6 +17,7 @@ export const getCoursesList = (courses) => {
     }
 };
 
+
 export const coursesLoaded = (courses) => {
     let coursesArray = [];
     Object.keys(courses)

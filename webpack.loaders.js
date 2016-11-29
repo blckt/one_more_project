@@ -3,6 +3,9 @@ module.exports = [
 		test: /\.jsx?$/,
 		exclude: /(node_modules|bower_components|public)/,
 		loader: "babel"
+	}, {
+		test: /\.json$/,
+		loader: 'json'
 	},
 	{
 		test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,

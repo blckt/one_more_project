@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 import { getCourse } from '../../../../actions/courseActions.js';
 
 import CourseInfo from './courseInfo';
-
+import Loading from 'cf-component-loading';
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ getCourse }, dispatch)
 
@@ -29,9 +29,12 @@ class CreateTest extends React.Component {
     }
     render() {
         return (<div>
-            {!this.props.course.isFetching ? <CourseInfo course={this.props.course}></CourseInfo> : "Loading..."}
+            {!this.props.course.isFetching ?
+                <CourseInfo course={this.props.course}>
+                    {this.props.children || 'Course stats..'}
+                </CourseInfo> : <Loading />}
         </div>)
     }
 }
 
-module.exports = connect(mapStateToProps,mapDispatchToProps)(withRouter(CreateTest));    
+module.exports = connect(mapStateToProps,mapDispatchToProps)(withRouter(CreateTest));          

@@ -22,8 +22,7 @@ loaders.push({
 	exclude: /[\/\\](node_modules|bower_components|public)[\/\\]/,
 	loaders: [
 		'style?sourceMap',
-		'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
-		'postcss',
+		'css',
 		'sass'
 	]
 });
@@ -96,7 +95,7 @@ module.exports = {
 			fetch: 'isomorphic-fetch'
 		}),
 		new webpack.DefinePlugin({
-			API_URL: JSON.stringify(process.env.API_URL) || "'http://coursemanager.azurewebsites.net/'"
+			API_URL: JSON.stringify(process.env.API_URL) || "'https://coursemanager.azurewebsites.net/'"
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({

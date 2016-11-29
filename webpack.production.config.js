@@ -46,7 +46,7 @@ module.exports = {
 			'process.env': {
 				NODE_ENV: '"production"'
 			},
-			API_URL: JSON.stringify(process.env.API_URL) || "'http://coursemanager.azurewebsites.net/'"
+			API_URL: JSON.stringify(process.env.API_URL) || "'https://coursemanager.azurewebsites.net/'"
 		}),
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
