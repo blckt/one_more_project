@@ -7,15 +7,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
 
-// global css
-loaders.push({
-	test: /\.css$/,
-	exclude: /[\/\\]src[\/\\]/,
-	loaders: [
-		'style?sourceMap',
-		'css'
-	]
-});
+// 
 // local scss modules
 loaders.push({
 	test: /\.scss$/,
@@ -30,7 +22,6 @@ loaders.push({
 // local css modules
 loaders.push({
 	test: /\.css$/,
-	exclude: /[\/\\](node_modules|bower_components|public)[\/\\]/,
 	loaders: [
 		'style?sourceMap',
 		'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
@@ -65,9 +56,9 @@ module.exports = {
 		extensions: ['', '.js', '.jsx'],
 		root: path.resolve(__dirname),
 		alias: {
-			util: './src/utils',
+			util: path.resolve(__dirname, 'src', 'utils'),
 			components: './src/components',
-			action: './src/actions'
+			action: path.resolve(__dirname, 'src', 'actions')
 		}
 	},
 	module: {

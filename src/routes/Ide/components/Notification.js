@@ -14,8 +14,8 @@ module.exports = function(result) {
                 {(()=>(<ListGroup>
                   {result.Errors.map((item,index)=>
                       <ListGroupItem>{`${index+1}.
-                       "${item.ErrorText}" at line:
-                       ${item.Line} column:${item.Column}`
+                       "${item.errorText}" at line:
+                       ${item.line} column:${item.column}`
                     }</ListGroupItem>)}
                     </ListGroup>))()}
             </Panel>

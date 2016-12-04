@@ -1,5 +1,6 @@
 import requireAuth from '../../utils/requireAuth.js';
 import Course from './components/Course.jsx';
+import LecturePage from './components/LectureComponents/LectureProgressPage'
 module.exports = {
     path: '/course/:id',
     getComponent(nextState, cb) {
@@ -7,6 +8,6 @@ module.exports = {
             cb(null, require('./components/'))
         })
     },
-    childRoutes:[Course],
+    childRoutes:[Course,LecturePage],
     onEnter: requireAuth,
 }

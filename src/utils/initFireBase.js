@@ -1,5 +1,6 @@
 const Guid = require('guid');
-var firebase = require('./initFB');
+// var firebase = require('./initFB').I;
+var firebase =require('firebase/app');
 // all 3 are optional and you only need to require them at the start
 require('firebase/auth');
 require('firebase/database');
@@ -11,15 +12,16 @@ import * as storageActions from '../actions/storageActions';
 import { login, logout, profileDataChanges } from '../actions/usersActions';
 // import { courseLoaded } from '../actions/courseActions';
 // import { coursesLoaded } from '../actions/actions'
-// var config = {
-//     apiKey: "AIzaSyAdkIgIi5vcbsvRhQ21WID9LA9KYUzKe9U",
-//     authDomain: "western-stone-146220.firebaseapp.com",
-//     databaseURL: "https://western-stone-146220.firebaseio.com",
-//     storageBucket: "western-stone-146220.appspot.com",
-//     messagingSenderId: "72550096492"
-// };
+var config = {
+    apiKey: "AIzaSyAdkIgIi5vcbsvRhQ21WID9LA9KYUzKe9U",
+    authDomain: "western-stone-146220.firebaseapp.com",
+    databaseURL: "https://western-stone-146220.firebaseio.com",
+    storageBucket: "western-stone-146220.appspot.com",
+    messagingSenderId: "72550096492"
+};
 
-// firebase.initializeApp(config)
+firebase.initializeApp(config)
+
 class FireBase {
     constructor() {
         this.initFirebase();

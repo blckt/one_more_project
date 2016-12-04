@@ -5,30 +5,50 @@ var loaders = require('./webpack.loaders');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+var CompressionPlugin = require('compression-webpack-plugin');
+loaders.push({
+	test: /\.scss$/,
+	exclude: /[\/\\](node_modules|bower_components|public)[\/\\]/,
+	loaders: [
+		'style?sourceMap',
+		'css',
+		'sass'
+	]
+});
 
 // local css modules
 loaders.push({
-	test: /[\/\\]src[\/\\].*\.css/,
-	exclude: /(node_modules|bower_components|public)/,
-	loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
+	test: /\.css$/,
+	loaders: [
+		'style?sourceMap',
+		'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
+	]
 });
 
-// local scss modules
-loaders.push({
-	test: /[\/\\]src[\/\\].*\.scss/,
-	exclude: /(node_modules|bower_components|public)/,
-	loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass')
-});
-// global css files
-loaders.push({
-	test: /[\/\\](node_modules|global)[\/\\].*\.css$/,
-	loader: ExtractTextPlugin.extract('style', 'css')
-});
+// // global css files
+// loaders.push({
+// 	test: /[\/\\](node_modules|global)[\/\\].*\.css$/,
+// 	loader: ExtractTextPlugin.extract('style', 'css')
+// });
 
 module.exports = {
-	entry: [
-		'./src/index.jsx'
-	],
+	entry:{
+		app: [
+			'react-hot-loader/patch',
+			'./src/index.jsx' // your app's entry point
+		],
+		vendors: [
+			'material-ui',
+			'react',
+			'react-dom',
+			'muicss',
+			'react-router',
+			'react-redux',
+			'react-router-redux',
+			'guid',
+			'firebase'
+		]
+	},
 	output: {
 		path: path.join(__dirname, 'public'),
 		filename: '[chunkhash].js',
@@ -61,8 +81,15 @@ module.exports = {
 		}),
 		new HtmlWebpackPlugin({
 			template: './src/template.html',
-			title: 'Scheduler'
+			title: '🤡Scheduler😁'
 		}),
-		new webpack.optimize.DedupePlugin()
+		new webpack.optimize.DedupePlugin(),
+		new CompressionPlugin({
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.js$|\.html$|.css$/,
+            threshold: 10240,
+            minRatio: 0.8
+		})
 	]
 };

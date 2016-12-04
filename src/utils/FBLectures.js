@@ -13,7 +13,11 @@ class LecturesManager extends FireBase {
         const promises = keys.map(key => cb => {
             var ref = this.database.ref('lectures/' + key);
             ref.on('value', (value) => {
-                cb(null, value.val());
+                if (value.val()) {
+                    const lect = Object.assign({}, value.val(), { key });
+                    return cb(null, lect);
+                }
+                return cb(null, value.val());
             })
         });
 
