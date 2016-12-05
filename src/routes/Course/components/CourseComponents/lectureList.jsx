@@ -10,7 +10,7 @@ class LectureListItem extends Component {
         lecture: PropTypes.shape({
             lectureName: PropTypes.string.isRequired,
             description: PropTypes.string.isRequired,
-            tasks: PropTypes.array.isRequired,
+            tasks: PropTypes.array,
             courseKey: PropTypes.string.isRequired
         }).isRequired
     }

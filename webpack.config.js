@@ -56,8 +56,8 @@ module.exports = {
 		extensions: ['', '.js', '.jsx'],
 		root: path.resolve(__dirname),
 		alias: {
-			util: path.resolve(__dirname, 'src', 'utils'),
-			components: './src/components',
+			utils: path.resolve(__dirname, 'src', 'utils'),
+			components: path.resolve(__dirname,'src','components'),
 			action: path.resolve(__dirname, 'src', 'actions')
 		}
 	},
@@ -83,6 +83,9 @@ module.exports = {
 			name: "vendors"
 		}),
 		new webpack.ProvidePlugin({
+			jQuery: 'jquery',
+			$: 'jquery',
+			jquery: 'jquery',
 			fetch: 'isomorphic-fetch'
 		}),
 		new webpack.DefinePlugin({

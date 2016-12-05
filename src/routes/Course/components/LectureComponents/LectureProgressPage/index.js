@@ -4,9 +4,8 @@ module.exports = {
     path: 'lecture/:id',
     getComponent(nextState, cb) {
         require.ensure([], () => {
-            cb(null,require('./LectureProgressPage').default);
-            console.log('here')
+            cb(null, require('./LectureProgressPage').default);
         })
     },
-  //  onEnter: requireAuth
+    //  onEnter: requireAuth
 }

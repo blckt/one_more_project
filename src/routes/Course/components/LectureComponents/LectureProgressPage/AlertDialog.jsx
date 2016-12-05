@@ -24,7 +24,7 @@ class ModalDialog extends React.Component {
             <FlatButton
                 label="Cancel"
                 primary={true}
-                onTouchTap={this.props.confirm}
+                onTouchTap={this.props.decline}
                 />,
             <FlatButton
                 label="OK"
@@ -37,7 +37,7 @@ class ModalDialog extends React.Component {
                 actions={actions}
                 modal={true}
                 open={this.props.open}
-                onRequestClose={this.props.confirm}
+                onRequestClose={this.props.decline}
                 >
                 Lection is over. Are u ready for code task?
         </Dialog>

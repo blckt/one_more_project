@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 const mapStateToProps = (state, ownProps) => {
     return {
-        course: <state className="courses course"></state>
+        course: state.courses.course
     }
 };
 const mapDispatchToProps = (dispatch, ownProps) => {

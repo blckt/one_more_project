@@ -45,7 +45,8 @@ class Course extends Component {
     }
 
     render() {
-        const {course        } = this.props;
+        const {course} = this.props;
+
         let lectures = {};
         if (this.props.lectures) {
             lectures = this.props.lectures.lectures.filter(lect => lect);
@@ -80,4 +81,4 @@ class Course extends Component {
     }
 }
 
-module.exports = connect(mapStateToProps,mapDispatchToProps)(Course);                           
+module.exports = connect(mapStateToProps, mapDispatchToProps)(Course);                           

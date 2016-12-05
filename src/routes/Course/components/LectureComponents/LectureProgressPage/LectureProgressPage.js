@@ -4,7 +4,7 @@ import cssModule from 'react-css-modules';
 import { withRouter } from 'react-router';
 import Pdf from './PdfView.jsx'
 import Dialog from './AlertDialog.jsx';
-import History from 'util/createHistory.js';
+import History from 'utils/createHistory.js';
 class LectureProgressPage extends React.Component {
   static propTypes = {
 

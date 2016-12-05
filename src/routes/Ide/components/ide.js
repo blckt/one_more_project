@@ -10,7 +10,11 @@ import Notifications from './Notification';
 import brace from 'brace'; //eslint-disable-line
 import Ace from 'react-ace';
 
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'jquery/dist/jquery.js'
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
+
 import 'brace/mode/csharp';
 import 'brace/theme/github';
 import { connect } from 'react-redux';

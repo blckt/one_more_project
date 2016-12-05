@@ -1,17 +1,14 @@
 const Guid = require('guid');
-// var firebase = require('./initFB').I;
-var firebase =require('firebase/app');
-// all 3 are optional and you only need to require them at the start
+var firebase = require('firebase/app');
 require('firebase/auth');
 require('firebase/database');
 require('firebase/storage');
 var equal = require('deep-equal');
 import store from '../utils/createStore';
 import * as storageActions from '../actions/storageActions';
-// import constancts from '../constants/userContants';
 import { login, logout, profileDataChanges } from '../actions/usersActions';
-// import { courseLoaded } from '../actions/courseActions';
-// import { coursesLoaded } from '../actions/actions'
+
+
 var config = {
     apiKey: "AIzaSyAdkIgIi5vcbsvRhQ21WID9LA9KYUzKe9U",
     authDomain: "western-stone-146220.firebaseapp.com",
@@ -40,10 +37,8 @@ class FireBase {
     loadCourses() {
         return new Promise((resolve, reject) => {
             this.coursesRef = this.database.ref('courses');
-            // Make sure we remove all previous listeners.
             this.coursesRef.off();
             this.coursesRef.on('value', (data) => {
-                //store.dispatch(coursesLoaded())
                 resolve(data.val())
             })
         })
@@ -183,13 +178,7 @@ class FireBase {
 }
 
 const fb = new FireBase()
-// fetch("http://localhost:3000/task/1",function(...args){
-//     console.log(args)
-// }).then(data=>data.json())
-// .then(code=>{
-//     delete code.id;
-//   fb.addTask(code);  
-// })
+
 module.exports = fb;
 module.exports.fb = fb;
 module.exports.FireBase = FireBase;

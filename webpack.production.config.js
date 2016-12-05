@@ -32,7 +32,7 @@ loaders.push({
 // });
 
 module.exports = {
-	entry:{
+	entry: {
 		app: [
 			'react-hot-loader/patch',
 			'./src/index.jsx' // your app's entry point
@@ -55,7 +55,13 @@ module.exports = {
 		publicPath: '/',
 	},
 	resolve: {
-		extensions: ['', '.js', '.jsx']
+		extensions: ['', '.js', '.jsx'],
+		root: path.resolve(__dirname),
+		alias: {
+			util: path.resolve(__dirname, 'src', 'utils'),
+			components: './src/components',
+			action: path.resolve(__dirname, 'src', 'actions')
+		}
 	},
 	module: {
 		loaders
@@ -85,11 +91,11 @@ module.exports = {
 		}),
 		new webpack.optimize.DedupePlugin(),
 		new CompressionPlugin({
-            asset: "[path].gz[query]",
-            algorithm: "gzip",
-            test: /\.js$|\.html$|.css$/,
-            threshold: 10240,
-            minRatio: 0.8
+			asset: "[path].gz[query]",
+			algorithm: "gzip",
+			test: /\.js$|\.html$|.css$/,
+			threshold: 10240,
+			minRatio: 0.8
 		})
 	]
 };

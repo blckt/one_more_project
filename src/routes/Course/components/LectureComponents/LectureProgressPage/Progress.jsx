@@ -2,7 +2,7 @@ import React from 'react';
 
 import CircularProgress from 'material-ui/CircularProgress';
 import { connect } from 'react-redux';
-import { } from 'material-ui'
+
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -68,4 +68,4 @@ class Loader extends React.Component {
     }
 }
 
-module.exports = connect(mapStateToProps)(Loader)
+module.exports = Loader;

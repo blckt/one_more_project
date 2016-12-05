@@ -1,6 +1,6 @@
 import { FireBase } from './initFireBase';
 
-import series from 'async/series';
+const Promise = require('bluebird');
 
 
 class LecturesManager extends FireBase {
@@ -10,22 +10,25 @@ class LecturesManager extends FireBase {
     getLectures(lectures) {
 
         const keys = lectures.map(lecture => Object.keys(lecture)[0]);
-        const promises = keys.map(key => cb => {
+        const promises = keys.map(key => new Promise((resolve, reject) => {
             var ref = this.database.ref('lectures/' + key);
             ref.on('value', (value) => {
                 if (value.val()) {
                     const lect = Object.assign({}, value.val(), { key });
-                    return cb(null, lect);
+                    resolve(lect);
                 }
-                return cb(null, value.val());
+                resolve(value.val());
             })
-        });
+        }));
 
         return new Promise((resolve, reject) => {
-            series(promises, (err, result) => {
-                if (err) reject(err);
-                resolve(result);
-            })
+            Promise.all(promises)
+                .then(data => {
+                    if (data) {
+                        data = data.filter(item => !!item)
+                        resolve(data);
+                    }
+                })
         })
 
     }

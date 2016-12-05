@@ -1,35 +1,31 @@
 import React from 'react';
 var PDF = require('pdfjs-dist');
-//require('./pdf.css')
-
+const Loader = require('components/Loaders.jsx');
+const Promise = require('bluebird');
+import store from 'utils/createStore';
+import * as storageActions from 'action/storageActions.js';
 PDF.PDFJS.useOnlyCssZoom = true;
 PDF.PDFJS.disableTextLayer = true;
 PDF.PDFJS.maxImageSize = 1024 * 1024;
 const styles = {}
+
+
 class PdfView extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
+        this.fetchPdf = this.fetchPdf.bind(this);
         this.state = {
-            currentPage: 1
+            currentPage: 1,
+            isFetch: false,
+            progress: 0
         }
     }
     componentDidMount() {
         this.setState({
             url: this.props.url
         });
-        this.getPDF(this.props.url)
         PDF.PDFJS.disableWorker = true;
-        const headers = new Headers();
-        headers.append(
-            "Access-Control-Allow-Origin", "*"
-        )
-        console.log(headers);
-        const docInit = {
-            url: this.props.url,
-            withCredentials: true,
-            headers
-        }
+
         this.getPDF(this.props.url)
             .then(buffer => {
                 const loadingTask = PDF.getDocument(buffer);
@@ -43,9 +39,46 @@ class PdfView extends React.Component {
                 })
             })
     }
+    fetchPdf = (url) => new Promise((resolve, reject) => {
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = "arraybuffer";
+        xhr.open("GET", url, true);
+        xhr.onload = function (e) {
+            store.dispatch(storageActions.uploadFinished());
+            resolve(new Uint8Array(this.response));
+        }
+        xhr.onprogress = (e) => {
+            const progress = (e.loaded / e.total) * 100;
+            store.dispatch(storageActions.onProgress(progress))
+            this.setState({
+                progress: e.loaded,
+                total: e.total
+            })
+        }
+        xhr.send();
+
+    })
     getPDF(url) {
-        return fetch(url)
-            .then(data => data.arrayBuffer())
+
+        if (!this.state.isFetch) {
+            var ftch = this.fetchPdf(url)
+                .then(buffer => {
+                    this.setState({
+                        isFetch: false,
+                        progress: 0
+                    })
+                    return buffer;
+                });
+            this.setState({
+                fetch: ftch,
+                isFetch: true,
+                progress: 0
+            })
+            return ftch;
+        }
+
+
+        return this.state.fetch
     }
     nextPage() {
         this.changePage(this.state.currentPage + 1);
@@ -92,8 +125,15 @@ class PdfView extends React.Component {
         return (<div>
             <button onClick={this.prevPage.bind(this)}>prev page</button>
             <button onClick={this.nextPage.bind(this)}>next page</button>
-            <canvas onDoubleClick={this.nextPage.bind(this)} ref={(c) => this.canvas = c}>
-            </canvas></div>)
+            {(() => {
+                if (this.state.isFetch) {
+                    return <Loader prog={this.state.progress} max={this.state.total}></Loader>
+                } else {
+                    return <canvas onDoubleClick={this.nextPage.bind(this)} ref={(c) => this.canvas = c}>
+                    </canvas>
+                }
+            })()}
+        </div>)
     }
 }
 
