@@ -11,6 +11,11 @@ injectTapEventPlugin();
 require('es6-promise').polyfill();
 require('./utils/initFB.js')
 
+import 'jquery/dist/jquery.js'
+
+import 'bootstrap';
+
+
 render(<AppContainer>
   <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
     <App />

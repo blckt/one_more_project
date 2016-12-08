@@ -11,7 +11,6 @@ const PORT = process.env.PORT || "8888";
 // local scss modules
 loaders.push({
 	test: /\.scss$/,
-	exclude: /[\/\\](node_modules|bower_components|public)[\/\\]/,
 	loaders: [
 		'style?sourceMap',
 		'css',
@@ -24,7 +23,7 @@ loaders.push({
 	test: /\.css$/,
 	loaders: [
 		'style?sourceMap',
-		'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
+		'css'
 	]
 });
 

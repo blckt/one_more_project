@@ -3,22 +3,19 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { findDOMNode } from 'react-dom';
 
-import { Col, Row, Button, Grid, ButtonToolbar } from 'react-bootstrap';
+import { Col, Row, Button, Grid, ButtonToolbar, Panel, Well } from 'react-bootstrap';
 import { getTask } from '../../../actions/tasksActions';
 
 import Notifications from './Notification';
 import brace from 'brace'; //eslint-disable-line
 import Ace from 'react-ace';
 
-import 'jquery/dist/jquery.js'
-
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.js';
-
 import 'brace/mode/csharp';
 import 'brace/theme/github';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
+
 
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ getTask }, dispatch)
@@ -82,40 +79,50 @@ class Ide extends React.Component {
     });
   }
   render() {
+    console.log(this.state.task)
     return (
-      <Grid>
+      <div className="container">
         <Row>
           {(() => {
             if (this.state.task) {
               return (<div>
-                <Row>
-                  <Col sm={12} xs={12} lg={8}>
-                    <Ace
-                      className="editor"
-                      width="100%"
-                      height="350px"
-                      mode="csharp"
-                      theme="github"
-                      value={this.state.code}
-                      onChange={this.codeChange.bind(this)}
-                      />
-                  </Col>
-                  <Col sm={12} lg={4}>
-                    {this.state.result && <Notifications {...this.state.result} />}
-                  </Col>
-                </Row>
-                <Row style={{ margin: '10px 0' }}>
-                  <Col sm={4}>
-                    <ButtonToolbar>
-                      <Button bsStyle="info" ref="submit_btn"> Submit </Button>
-                      <Button bsStyle="danger" ref="updateTask_btn"> Update</Button>
-                    </ButtonToolbar>
-                  </Col>
-                </Row></div>);
+
+                <Panel header={this.state.task.TaskName}>
+                  <div className="row">
+                    <div className="col-sm-8">
+                      <Ace
+                        className="editor"
+                        width="100%"
+                        height="350px"
+                        mode="csharp"
+                        theme="github"
+                        value={this.state.code}
+                        onChange={this.codeChange.bind(this)}
+                        />
+                    </div>
+                    <div className="col-sm-4">
+                      <Well>
+                        {this.state.task.Description}
+                      </Well>
+                      {this.state.result && <Notifications {...this.state.result} />}
+                    </div>
+                  </div>
+                  <Row style={{ margin: '10px 0' }}>
+                    <Col sm={4}>
+                      <ButtonToolbar>
+                        <Button bsStyle="info" ref="submit_btn"> Submit </Button>
+                        <Button bsStyle="danger" ref="updateTask_btn"> Update</Button>
+                      </ButtonToolbar>
+                    </Col>
+                  </Row>
+                </Panel>
+
+              </div>
+              );
             }
           })()}
         </Row>
-      </Grid>
+      </div>
     );
   }
 }
